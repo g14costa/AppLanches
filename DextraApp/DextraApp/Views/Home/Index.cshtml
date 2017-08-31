@@ -1,0 +1,89 @@
+﻿@{
+    ViewBag.Title = "Lanches";
+}
+@model DextraApp.ViewModel.ListagemLancheIngredienteViewModel
+<div class="jumbotron">
+    <h1 class="text-center">Cardápio de Lanches</h1>
+    <table class="col-md-12" border="1">
+        <thead>
+            <tr>
+                <td>Lanche</td>
+                <td>Valor</td>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                foreach (var item in Model.Lanches)
+                {
+                    string nomeIngredientes = "";
+                    foreach (var ing in item.Ingredientes)
+                    {
+                        nomeIngredientes += ing.Nome + ",";
+                    }
+                    nomeIngredientes = nomeIngredientes.Remove(nomeIngredientes.Length - 1);
+
+                    <tr>
+                        <td>@item.Nome <br /><small>@nomeIngredientes</small></td>
+                        <td id="@item.Nome.Replace(" ", "-")">R$ @item.Valor</td>
+                    </tr>
+                }
+            }
+            <tr>
+                <td class="text-center" colspan="2">
+                    Personalize o seu lanche
+                </td>
+            </tr>
+            @{
+                foreach (var item in Model.Ingredientes)
+                {
+                    <tr>
+                        <td>@item.Nome</td>
+                        <td id="@item.Nome">R$ @item.Valor</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+<h2 class="text-center">Monte aqui o seu lanche</h2>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="form-group">
+            <label for="selType">Selecione o Lanche</label>
+            <select class="form-control select-type" id="selType">
+                <option value="0">Selecione o lanche...</option>
+                <option value="X-Bacon">X-Bacon</option>
+                <option value="X-Burger">X-Burger</option>
+                <option value="X-Egg">X-Egg</option>
+                <option value="X-Egg-Bacon">X-Egg Bacon</option>
+                <option value="Personalizado">Personalizado</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="form-group">
+            <label for="selType">Valor Total: </label>
+            <label id="valorTotalLanche">R$ 0,00</label>
+            <label id="valorDesconto"></label>
+        </div>
+    </div>
+
+</div>
+
+<div class="row">
+    <h3 class="padding-left">Incremente ou crie seu lanche</h3>
+        @{
+            foreach (var item in Model.Ingredientes)
+            {
+                <div class="col-md-1">
+                    <label>@item.Nome</label>
+                    <input disabled="disabled" value="0" type="number" name="@item.Nome" min="0" class="form-control unidadeIngrediente" />
+                </div>
+            }
+        }
+</div>
+
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/Lanches.js"></script>
